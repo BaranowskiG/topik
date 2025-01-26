@@ -11,7 +11,7 @@ import SwiftUI
 struct topikApp: App {
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            EventListView()
         }
     }
 }
