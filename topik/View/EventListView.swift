@@ -12,7 +12,6 @@ struct EventListView: View {
     @State private var isWelcomeViewVisible = false
     @State private var isAuthenticateViewVisible = false
 
-    @State private var authenticateView = 0
 
 
     var body: some View {
@@ -36,22 +35,9 @@ struct EventListView: View {
                 .presentationCompactAdaptation(.fullScreenCover)
         }
         .sheet(isPresented: $isAuthenticateViewVisible) {
-            VStack {
-                Picker("test", selection: $authenticateView) {
-                    Text("login").tag(0)
-                    Text("register").tag(1)
-                }
-                .padding()
-                .pickerStyle(.segmented)
-                if authenticateView == 0 {
-                    LoginView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    RegisterView(model: Register())
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-            }
-            .presentationCompactAdaptation(.fullScreenCover)
+            AuthenticatorView(model: Authenticator())
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .presentationCompactAdaptation(.fullScreenCover)
         }
     }
 
