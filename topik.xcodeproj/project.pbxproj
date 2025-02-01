@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5F1F73532D4EA36500877473 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F1F73522D4EA36500877473 /* FirebaseAuth */; };
+		5F1F73552D4EA36500877473 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F1F73542D4EA36500877473 /* FirebaseCore */; };
+		5F1F73572D4EA36500877473 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F1F73562D4EA36500877473 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5F41549F2D4694D000EC24FB /* topik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = topik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F1F73552D4EA36500877473 /* FirebaseCore in Frameworks */,
+				5F1F73532D4EA36500877473 /* FirebaseAuth in Frameworks */,
+				5F1F73572D4EA36500877473 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 			);
 			name = topik;
 			packageProductDependencies = (
+				5F1F73522D4EA36500877473 /* FirebaseAuth */,
+				5F1F73542D4EA36500877473 /* FirebaseCore */,
+				5F1F73562D4EA36500877473 /* FirebaseFirestore */,
 			);
 			productName = topik;
 			productReference = 5F41549F2D4694D000EC24FB /* topik.app */;
@@ -94,6 +106,9 @@
 			);
 			mainGroup = 5F4154962D4694D000EC24FB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5F1F73512D4EA36500877473 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5F4154A02D4694D000EC24FB /* Products */;
 			projectDirPath = "";
@@ -269,10 +284,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.grzegorzbaranowski.topik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
@@ -305,10 +321,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.grzegorzbaranowski.topik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
@@ -335,6 +352,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5F1F73512D4EA36500877473 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5F1F73522D4EA36500877473 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F1F73512D4EA36500877473 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		5F1F73542D4EA36500877473 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F1F73512D4EA36500877473 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		5F1F73562D4EA36500877473 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F1F73512D4EA36500877473 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F4154972D4694D000EC24FB /* Project object */;
 }

@@ -9,14 +9,19 @@ import SwiftUI
 
 struct EventListView: View {
 
-    @State private var isWelcomeScreenVisible = false
+    @State private var isWelcomeViewVisible = false
+    @State private var isAuthenticateViewVisible = false
+
+    @State private var authenticateView = 0
+
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 item()
                 Button {
-                    isWelcomeScreenVisible.toggle()
+//                    isWelcomeViewVisible.toggle()
+                    isAuthenticateViewVisible.toggle()
                 } label: {
                     Text("next")
                         .frame(width: 289, height: 32)
@@ -26,9 +31,27 @@ struct EventListView: View {
             }
             .navigationTitle("event_list_title")
         }
-        .sheet(isPresented: $isWelcomeScreenVisible) {
+        .sheet(isPresented: $isWelcomeViewVisible) {
             WelcomeView()
                 .presentationCompactAdaptation(.fullScreenCover)
+        }
+        .sheet(isPresented: $isAuthenticateViewVisible) {
+            VStack {
+                Picker("test", selection: $authenticateView) {
+                    Text("login").tag(0)
+                    Text("register").tag(1)
+                }
+                .padding()
+                .pickerStyle(.segmented)
+                if authenticateView == 0 {
+                    LoginView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    RegisterView(model: Register())
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .presentationCompactAdaptation(.fullScreenCover)
         }
     }
 

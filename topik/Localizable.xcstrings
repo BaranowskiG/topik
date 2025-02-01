@@ -1,7 +1,63 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "email" : {
 
+    },
+    "event_list_title" : {
+
+    },
+    "event_name" : {
+
+    },
+    "hello world" : {
+
+    },
+    "login" : {
+
+    },
+    "login_form_button_label" : {
+
+    },
+    "login_title" : {
+
+    },
+    "next" : {
+
+    },
+    "OK" : {
+
+    },
+    "password" : {
+
+    },
+    "password_repeat" : {
+
+    },
+    "register" : {
+
+    },
+    "register_form_button_label" : {
+
+    },
+    "register_title" : {
+
+    },
+    "test" : {
+
+    },
+    "welcome_point_1" : {
+
+    },
+    "welcome_point_2" : {
+
+    },
+    "welcome_point_3" : {
+
+    },
+    "welcome_title" : {
+
+    }
   },
   "version" : "1.0"
 }
