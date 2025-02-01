@@ -12,8 +12,6 @@ struct EventListView: View {
     @State private var isWelcomeViewVisible = false
     @State private var isAuthenticateViewVisible = false
 
-
-
     var body: some View {
         NavigationStack {
             List {
@@ -57,4 +55,10 @@ struct EventListView: View {
 
 #Preview {
     EventListView()
+}
+
+// MARK: - model
+
+class EventList: ObservableObject {
+
 }

@@ -10,11 +10,11 @@ import FirebaseAuth
 
 struct AuthenticatorView: View {
 
-    private enum AuthenticateViewType {
+    private enum AuthenticationType {
         case login
         case register
     }
-    @State private var authenticateViewType: AuthenticateViewType = .login
+    @State private var authenticationType: AuthenticationType = .login
 
     @ObservedObject var model: Authenticator
 
@@ -27,9 +27,9 @@ struct AuthenticatorView: View {
 
     public var body: some View {
         VStack {
-            Picker("test", selection: $authenticateViewType) {
-                Text("login").tag(AuthenticateViewType.login)
-                Text("register").tag(AuthenticateViewType.register)
+            Picker("test", selection: $authenticationType) {
+                Text("login").tag(AuthenticationType.login)
+                Text("register").tag(AuthenticationType.register)
             }
             .padding()
             .pickerStyle(.segmented)
@@ -37,16 +37,16 @@ struct AuthenticatorView: View {
                 TextField("email", text: $email)
                     .focused($focusedField)
                 TextField("password", text: $password)
-                if authenticateViewType == .register {
+                if authenticationType == .register {
                     TextField("password_repeat", text: $passwordRepeat)
                 }
                 Button {
-                    switch authenticateViewType {
+                    switch authenticationType {
                     case .login: model.login(email: email, password: password)
                     case .register: model.register(email: email, password: password)
                     }
                 } label: {
-                    switch authenticateViewType {
+                    switch authenticationType {
                     case .login: Label("login_form_button_label", systemImage: "trash")
                     case .register: Label("register_form_button_label", systemImage: "cross")
                     }
@@ -69,6 +69,7 @@ struct AuthenticatorView: View {
     AuthenticatorView(model: .mock)
 }
 
+// MARK: - model
 
 class Authenticator: ObservableObject {
 
