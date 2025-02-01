@@ -14,6 +14,7 @@ struct AuthenticatorView: View {
         case login
         case register
     }
+    @State private var authenticateViewType: AuthenticateViewType = .login
 
     @ObservedObject var model: Authenticator
 
@@ -23,8 +24,6 @@ struct AuthenticatorView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var passwordRepeat: String = ""
-
-    @State private var authenticateViewType: AuthenticateViewType = .login
 
     public var body: some View {
         VStack {
@@ -43,23 +42,21 @@ struct AuthenticatorView: View {
                 }
                 Button {
                     switch authenticateViewType {
-                        case .login:
-                            model.login(email: email, password: password)
-                        case .register:
-                            model.register(email: email, password: password)
+                    case .login: model.login(email: email, password: password)
+                    case .register: model.register(email: email, password: password)
                     }
                 } label: {
                     switch authenticateViewType {
-                        case .login: Label("login_form_button_label", systemImage: "trash")
-                        case .register: Label("register_form_button_label", systemImage: "cross")
+                    case .login: Label("login_form_button_label", systemImage: "trash")
+                    case .register: Label("register_form_button_label", systemImage: "cross")
                     }
                 }
             }
             .onAppear {
                 focusedField = true
             }
-            .onReceive(model.$isOperationSuccessful) { isSuccessful in
-                if isSuccessful {
+            .onReceive(model.$currentUser) { user in
+                if user != nil {
                     dismiss()
                 }
             }
@@ -75,7 +72,7 @@ struct AuthenticatorView: View {
 
 class Authenticator: ObservableObject {
 
-    @Published var isOperationSuccessful: Bool = false
+    @Published var currentUser: User? = nil
 
     required init() {}
 
@@ -86,11 +83,10 @@ class Authenticator: ObservableObject {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
             guard error == nil else {
                 print("Firebase error: \(String(describing: error))")
-                self?.isOperationSuccessful = false
                 return
             }
-            if let _ = result?.user {
-                self?.isOperationSuccessful = true
+            if let user = result?.user {
+                self?.currentUser = user
             }
         }
     }
@@ -99,9 +95,15 @@ class Authenticator: ObservableObject {
         email: String,
         password: String
     ) {
-//        Auth.auth().signIn(withEmail: "", password: "") { result, error in
-//
-//        }
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+            guard error == nil else {
+                print("Firebase error: \(String(describing: error))")
+                return
+            }
+            if let user = result?.user {
+                self?.currentUser = user
+            }
+        }
     }
 }
 
