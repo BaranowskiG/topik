@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "auth_view_title" : {
+
+    },
     "email" : {
 
     },
@@ -35,9 +38,6 @@
 
     },
     "register_form_button_label" : {
-
-    },
-    "register_title" : {
 
     },
     "test" : {

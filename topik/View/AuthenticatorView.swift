@@ -15,52 +15,70 @@ struct AuthenticatorView: View {
         case register
     }
     @State private var authenticationType: AuthenticationType = .login
+    @State private var isLoading: Bool = false
 
     @ObservedObject var model: Authenticator
 
     @FocusState private var focusedField: Bool
-    @Environment(\.dismiss) var dismiss
 
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var passwordRepeat: String = ""
 
     public var body: some View {
-        VStack {
-            Picker("test", selection: $authenticationType) {
-                Text("login").tag(AuthenticationType.login)
-                Text("register").tag(AuthenticationType.register)
-            }
-            .padding()
-            .pickerStyle(.segmented)
-            Form {
-                TextField("email", text: $email)
-                    .focused($focusedField)
-                TextField("password", text: $password)
-                if authenticationType == .register {
-                    TextField("password_repeat", text: $passwordRepeat)
-                }
-                Button {
-                    switch authenticationType {
-                    case .login: model.login(email: email, password: password)
-                    case .register: model.register(email: email, password: password)
+        NavigationStack {
+            ZStack {
+                VStack {
+                    Picker("test", selection: $authenticationType) {
+                        Text("login").tag(AuthenticationType.login)
+                        Text("register").tag(AuthenticationType.register)
                     }
-                } label: {
-                    switch authenticationType {
-                    case .login: Label("login_form_button_label", systemImage: "trash")
-                    case .register: Label("register_form_button_label", systemImage: "cross")
+                    .padding()
+                    .pickerStyle(.segmented)
+                    .onChange(of: authenticationType) {
+                        isLoading = false
                     }
+                    Form {
+                        TextField("email", text: $email)
+                            .focused($focusedField)
+                        TextField("password", text: $password)
+                        if authenticationType == .register {
+                            TextField("password_repeat", text: $passwordRepeat)
+                        }
+                        Button {
+                            isLoading = true
+                            switch authenticationType {
+                                case .login: model.login(email: email, password: password)
+                                case .register: model.register(email: email, password: password)
+                            }
+                        } label: {
+                            switch authenticationType {
+                                case .login: Label("login_form_button_label", systemImage: "trash")
+                                case .register: Label("register_form_button_label", systemImage: "cross")
+                            }
+                        }
+                    }
+                    .onAppear {
+                        focusedField = true
+                    }
+                    .onReceive(model.$currentUser) { user in
+                        if user != nil {
+                            print("logged in")
+                            NavigationLink("test") {
+                                EventListView()
+                            }
+                        }
+                    }
+                    .navigationTitle("auth_view_title")
+                }
+                VStack {
+                    Spacer()
+                    ProgressView()
+                        .controlSize(.regular)
+                        .opacity(isLoading ? 1 : 0)
+                        .padding(.bottom, 40)
                 }
             }
-            .onAppear {
-                focusedField = true
-            }
-            .onReceive(model.$currentUser) { user in
-                if user != nil {
-                    dismiss()
-                }
-            }
-            .navigationTitle("register_title")
         }
     }
 }

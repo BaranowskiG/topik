@@ -34,7 +34,7 @@ struct topikApp: App {
 
     var body: some Scene {
         WindowGroup {
-            EventListView()
+            AuthenticatorView(model: .init())
         }
     }
 }
