@@ -53,8 +53,14 @@ struct AuthenticatorView: View {
                             }
                         } label: {
                             switch authenticationType {
-                                case .login: Label("login_form_button_label", systemImage: "trash")
-                                case .register: Label("register_form_button_label", systemImage: "cross")
+                                case .login: Label(
+                                    "login_form_button_label",
+                                    systemImage: "person.crop.circle"
+                                )
+                                case .register: Label(
+                                    "register_form_button_label",
+                                    systemImage: "person.crop.circle.badge.plus"
+                                )
                             }
                         }
                     }
