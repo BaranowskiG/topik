@@ -70,9 +70,6 @@ struct AuthenticatorView: View {
                     .onReceive(model.$currentUser) { user in
                         if user != nil {
                             print("logged in")
-                            NavigationLink("test") {
-                                EventListView()
-                            }
                         }
                     }
                     .navigationTitle("auth_view_title")
@@ -84,6 +81,9 @@ struct AuthenticatorView: View {
                         .opacity(isLoading ? 1 : 0)
                         .padding(.bottom, 40)
                 }
+            }
+            .navigationDestination(isPresented: $model.isAuthenticated) {
+                EventListView()
             }
         }
     }
@@ -98,6 +98,11 @@ struct AuthenticatorView: View {
 class Authenticator: ObservableObject {
 
     @Published var currentUser: User? = nil
+
+    var isAuthenticated: Bool {
+        get { currentUser != nil }
+        set {}
+    }
 
     required init() {}
 

@@ -9,16 +9,12 @@ import SwiftUI
 
 struct EventListView: View {
 
-    @State private var isWelcomeViewVisible = false
-    @State private var isAuthenticateViewVisible = false
-
     var body: some View {
         NavigationStack {
             List {
                 item()
                 Button {
-//                    isWelcomeViewVisible.toggle()
-                    isAuthenticateViewVisible.toggle()
+
                 } label: {
                     Text("next")
                         .frame(width: 289, height: 32)
@@ -27,15 +23,6 @@ struct EventListView: View {
                 }
             }
             .navigationTitle("event_list_title")
-        }
-        .sheet(isPresented: $isWelcomeViewVisible) {
-            WelcomeView()
-                .presentationCompactAdaptation(.fullScreenCover)
-        }
-        .sheet(isPresented: $isAuthenticateViewVisible) {
-            AuthenticatorView(model: Authenticator())
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .presentationCompactAdaptation(.fullScreenCover)
         }
     }
 
