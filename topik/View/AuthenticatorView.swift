@@ -21,8 +21,8 @@ struct AuthenticatorView: View {
 
     @FocusState private var focusedField: Bool
 
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var email: String = "User@wp.pl"
+    @State private var password: String = "Test123456"
     @State private var passwordRepeat: String = ""
 
     public var body: some View {
@@ -83,7 +83,17 @@ struct AuthenticatorView: View {
                 }
             }
             .navigationDestination(isPresented: $model.isAuthenticated) {
-                EventListView()
+                TabView {
+                    EventListView(model: .init())
+                        .tabItem {
+                            Label("tab_list", systemImage: "clock")
+                        }
+                    AccountView()
+                        .tabItem {
+                            Label("tab_account", systemImage: "clock")
+                        }
+                }
+                .navigationBarBackButtonHidden()
             }
         }
     }

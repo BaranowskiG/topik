@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lf" : {
+
+    },
+    "AccountView" : {
+
+    },
     "auth_view_title" : {
 
     },
@@ -10,19 +16,10 @@
     "event_list_title" : {
 
     },
-    "event_name" : {
-
-    },
-    "hello world" : {
-
-    },
     "login" : {
 
     },
     "login_form_button_label" : {
-
-    },
-    "next" : {
 
     },
     "OK" : {
@@ -38,6 +35,12 @@
 
     },
     "register_form_button_label" : {
+
+    },
+    "tab_account" : {
+
+    },
+    "tab_list" : {
 
     },
     "test" : {

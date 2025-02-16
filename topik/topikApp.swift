@@ -34,11 +34,20 @@ struct topikApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AuthenticatorView(model: .init())
+            TabView {
+                EventListView(model: .init())
+                    .tabItem {
+                        Label("tab_list", systemImage: "clock")
+                    }
+                AccountView()
+                    .tabItem {
+                        Label("tab_account", systemImage: "clock")
+                    }
+            }
         }
     }
 }
 
 #Preview {
-    EventListView()
+    EventListView(model: .init())
 }
