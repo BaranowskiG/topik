@@ -34,16 +34,32 @@ struct topikApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView {
-                EventListView(model: .init())
-                    .tabItem {
-                        Label("tab_list", systemImage: "clock")
-                    }
-                AccountView()
-                    .tabItem {
-                        Label("tab_account", systemImage: "clock")
-                    }
-            }
+            MainTabView()
+        }
+    }
+}
+
+
+struct MainTabView: View {
+
+    @State private var requiresAuthorization: Bool = {
+        Auth.auth().currentUser == nil
+    }()
+
+    var body: some View {
+        TabView {
+            EventListView(model: .init())
+                .tabItem {
+                    Label("tab_list", systemImage: "clock")
+                }
+            AccountView()
+                .tabItem {
+                    Label("tab_account", systemImage: "clock")
+                }
+        }
+        .sheet(isPresented: $requiresAuthorization) {
+            AuthenticatorView(requiresAuthorization: $requiresAuthorization, model: .init())
+                .interactiveDismissDisabled()
         }
     }
 }

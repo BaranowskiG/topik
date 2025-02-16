@@ -14,6 +14,9 @@ struct AuthenticatorView: View {
         case login
         case register
     }
+
+    @Binding var requiresAuthorization: Bool
+
     @State private var authenticationType: AuthenticationType = .login
     @State private var isLoading: Bool = false
 
@@ -70,6 +73,7 @@ struct AuthenticatorView: View {
                     .onReceive(model.$currentUser) { user in
                         if user != nil {
                             print("logged in")
+                            requiresAuthorization = false
                         }
                     }
                     .navigationTitle("auth_view_title")
@@ -82,25 +86,12 @@ struct AuthenticatorView: View {
                         .padding(.bottom, 40)
                 }
             }
-            .navigationDestination(isPresented: $model.isAuthenticated) {
-                TabView {
-                    EventListView(model: .init())
-                        .tabItem {
-                            Label("tab_list", systemImage: "clock")
-                        }
-                    AccountView()
-                        .tabItem {
-                            Label("tab_account", systemImage: "clock")
-                        }
-                }
-                .navigationBarBackButtonHidden()
-            }
         }
     }
 }
 
 #Preview {
-    AuthenticatorView(model: .mock)
+    AuthenticatorView(requiresAuthorization: .constant(false), model: .mock)
 }
 
 // MARK: - model
@@ -109,8 +100,8 @@ class Authenticator: ObservableObject {
 
     @Published var currentUser: User? = nil
 
-    var isAuthenticated: Bool {
-        get { currentUser != nil }
+    var isNotAuthenticated: Bool {
+        get { currentUser == nil }
         set {}
     }
 
