@@ -5,7 +5,14 @@
 
     },
     "account_view_title" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konto"
+          }
+        }
+      }
     },
     "auth_view_title" : {
       "localizations" : {
@@ -24,16 +31,45 @@
       }
     },
     "Copy" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiuj"
+          }
+        }
+      }
     },
     "delete account" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń konto"
+          }
+        }
+      }
     },
     "developer data" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dane techniczne"
+          }
+        }
+      }
     },
     "DiaryView" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dziennik"
+          }
+        }
+      }
     },
     "email" : {
       "localizations" : {
@@ -68,7 +104,14 @@
       }
     },
     "log out" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyloguj"
+          }
+        }
+      }
     },
     "login" : {
       "localizations" : {
@@ -103,7 +146,14 @@
       }
     },
     "Manage" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zarządzaj"
+          }
+        }
+      }
     },
     "OK" : {
 
@@ -227,7 +277,14 @@
 
     },
     "User data" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dane użytkownika"
+          }
+        }
+      }
     },
     "welcome_point_1" : {
 

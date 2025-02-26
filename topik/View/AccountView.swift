@@ -12,24 +12,30 @@ public struct AccountView: View {
 
     let user: User
 
+    @State private var copyText = "Kopiuj"
+
     public var body: some View {
         NavigationStack {
             List {
                 Section("User data") {
                     DetailedRow(title: "Email", detail: user.email)
-                    DetailedRow(title: "Phone number", detail: user.phoneNumber)
-                    DetailedRow(title: "Last sign in at:", detail: user.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))
-                    DetailedRow(title: "Created at:", detail: user.metadata.creationDate?.formatted(date: .numeric, time: .shortened))
+                    DetailedRow(title: "Numer telefonu", detail: user.phoneNumber)
+                    DetailedRow(title: "Ostatnie logowanie", detail: user.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))
+                    DetailedRow(title: "Konto utworzona", detail: user.metadata.creationDate?.formatted(date: .numeric, time: .shortened))
                 }
                 Section("developer data") {
                     DetailedRow(title: "Id", detail: user.uid)
-                    DetailedRow(title: "Provider", detail: user.providerID)
+                    DetailedRow(title: "Dostawca", detail: user.providerID)
                     NavigationLink {
                         VStack {
                             Text(user.refreshToken ?? "Error: refresh token not found")
                                 .multilineTextAlignment(.leading)
-                            Button("Copy") {
+                            Button(copyText) {
                                 UIPasteboard.general.string = user.refreshToken ?? "Error: refresh token not found"
+                                copyText = "Skopiowano"
+                            }
+                            .onAppear {
+                                copyText = "Kopiuj"
                             }
                             .padding()
                         }
