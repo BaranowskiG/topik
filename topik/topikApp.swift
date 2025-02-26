@@ -50,11 +50,15 @@ struct MainTabView: View {
         TabView {
             EventListView(model: .init())
                 .tabItem {
-                    Label("tab_list", systemImage: "clock")
+                    Label("tab_list", systemImage: "list.bullet.circle.fill")
                 }
-            AccountView()
+            DiaryView()
                 .tabItem {
-                    Label("tab_account", systemImage: "clock")
+                    Label("tab_diary", systemImage: "book.closed.circle.fill")
+                }
+            AccountView(user: Auth.auth().currentUser!)
+                .tabItem {
+                    Label("tab_account", systemImage: "person.crop.circle.fill")
                 }
         }
         .sheet(isPresented: $requiresAuthorization) {
