@@ -42,26 +42,32 @@ struct topikApp: App {
 
 struct MainTabView: View {
 
+    @State private var selection: Int = 0
     @State private var requiresAuthorization: Bool = {
         Auth.auth().currentUser == nil
     }()
 
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             EventListView(model: .init())
                 .tabItem {
                     Label("tab_list", systemImage: "list.bullet.circle.fill")
                 }
+                .tag(0)
             DiaryView()
                 .tabItem {
                     Label("tab_diary", systemImage: "book.closed.circle.fill")
                 }
-            AccountView(user: Auth.auth().currentUser!)
+                .tag(1)
+            AccountView(account: .init(), requiresAuthentication: $requiresAuthorization)
                 .tabItem {
                     Label("tab_account", systemImage: "person.crop.circle.fill")
                 }
+                .tag(2)
         }
-        .sheet(isPresented: $requiresAuthorization) {
+        .sheet(isPresented: $requiresAuthorization, onDismiss: {
+            selection = 0
+        }) {
             AuthenticatorView(requiresAuthorization: $requiresAuthorization, model: .init())
                 .interactiveDismissDisabled()
         }

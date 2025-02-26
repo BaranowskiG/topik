@@ -10,28 +10,29 @@ import FirebaseAuth
 
 public struct AccountView: View {
 
-    let user: User
+    var account: Account
 
     @State private var copyText = "Kopiuj"
+    @Binding var requiresAuthentication: Bool
 
     public var body: some View {
         NavigationStack {
             List {
-                Section("User data") {
-                    DetailedRow(title: "Email", detail: user.email)
-                    DetailedRow(title: "Numer telefonu", detail: user.phoneNumber)
-                    DetailedRow(title: "Ostatnie logowanie", detail: user.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))
-                    DetailedRow(title: "Konto utworzona", detail: user.metadata.creationDate?.formatted(date: .numeric, time: .shortened))
+                Section("account.user data") {
+                    DetailedRow(title: "Email", detail: account.user?.email)
+                    DetailedRow(title: "Numer telefonu", detail: account.user?.phoneNumber)
+                    DetailedRow(title: "Ostatnie logowanie", detail: account.user?.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))
+                    DetailedRow(title: "Konto utworzona", detail: account.user?.metadata.creationDate?.formatted(date: .numeric, time: .shortened))
                 }
                 Section("developer data") {
-                    DetailedRow(title: "Id", detail: user.uid)
-                    DetailedRow(title: "Dostawca", detail: user.providerID)
+                    DetailedRow(title: "Id", detail: account.user?.uid)
+                    DetailedRow(title: "Dostawca", detail: account.user?.providerID)
                     NavigationLink {
                         VStack {
-                            Text(user.refreshToken ?? "Error: refresh token not found")
+                            Text(account.user?.refreshToken ?? "Error: refresh token not found")
                                 .multilineTextAlignment(.leading)
                             Button(copyText) {
-                                UIPasteboard.general.string = user.refreshToken ?? "Error: refresh token not found"
+                                UIPasteboard.general.string = account.user?.refreshToken ?? "Error: refresh token not found"
                                 copyText = "Skopiowano"
                             }
                             .onAppear {
@@ -47,14 +48,24 @@ public struct AccountView: View {
                 }
                 Section("Manage") {
                     Button("log out", role: .cancel) {
+                        Task {
+                            await account.signOut()
 
+                        }
+                        requiresAuthentication = true
                     }
                     Button("delete account", role: .destructive) {
-
+                        Task {
+                            await account.deleteAccount()
+                        }
+                        requiresAuthentication = true
                     }
                 }
             }
             .navigationTitle("account_view_title")
+            .onAppear {
+                account.user = Auth.auth().currentUser
+            }
         }
     }
 }
@@ -74,19 +85,35 @@ fileprivate struct DetailedRow: View {
     }
 }
 
-fileprivate extension Date? {
-    func displaySimpleFormat() -> String {
-        guard let self else {
-            return ""
-        }
-
-        return self.formatted(date: .complete, time: .shortened)
-    }
-}
-
 // MARK: - model
 
+@Observable
+class Account {
 
-class Account: ObservableObject {
+    var user: User?
+
+    init() {
+        self.user = Auth.auth().currentUser
+    }
+
+    func signOut() async {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("failed to signOut user")
+        }
+    }
+
+    func deleteAccount() async {
+        user?.delete { error in
+          if let error = error {
+            // An error happened.
+              print("account not deleted. Error \(error.localizedDescription)")
+          } else {
+            // Account deleted.
+              print("account deleted")
+          }
+        }
+    }
 
 }
