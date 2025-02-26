@@ -17,21 +17,35 @@ public struct AccountView: View {
             List {
                 Section("User data") {
                     DetailedRow(title: "Email", detail: user.email)
+                    DetailedRow(title: "Phone number", detail: user.phoneNumber)
+                    DetailedRow(title: "Last sign in at:", detail: user.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))
+                    DetailedRow(title: "Created at:", detail: user.metadata.creationDate?.formatted(date: .numeric, time: .shortened))
+                }
+                Section("developer data") {
                     DetailedRow(title: "Id", detail: user.uid)
                     DetailedRow(title: "Provider", detail: user.providerID)
-                    DetailedRow(title: "Phone number", detail: user.phoneNumber)
-                }
-                Section("account creation date") {
-                    Text(user.metadata.creationDate.displaySimpleFormat())
-                }
-                Section("last sign in date") {
-                    Text(user.metadata.lastSignInDate.displaySimpleFormat())
-                }
-                Button("log out", role: .cancel) {
+                    NavigationLink {
+                        VStack {
+                            Text(user.refreshToken ?? "Error: refresh token not found")
+                                .multilineTextAlignment(.leading)
+                            Button("Copy") {
+                                UIPasteboard.general.string = user.refreshToken ?? "Error: refresh token not found"
+                            }
+                            .padding()
+                        }
+                        .padding(.horizontal, 50)
+                    } label: {
+                        Text("Refresh token")
+                    }
 
                 }
-                Button("delete account", role: .destructive) {
+                Section("Manage") {
+                    Button("log out", role: .cancel) {
 
+                    }
+                    Button("delete account", role: .destructive) {
+
+                    }
                 }
             }
             .navigationTitle("account_view_title")

@@ -4,9 +4,6 @@
     "%lf" : {
 
     },
-    "account creation date" : {
-
-    },
     "account_view_title" : {
 
     },
@@ -26,7 +23,13 @@
         }
       }
     },
+    "Copy" : {
+
+    },
     "delete account" : {
+
+    },
+    "developer data" : {
 
     },
     "DiaryView" : {
@@ -64,9 +67,6 @@
         }
       }
     },
-    "last sign in date" : {
-
-    },
     "log out" : {
 
     },
@@ -102,6 +102,9 @@
         }
       }
     },
+    "Manage" : {
+
+    },
     "OK" : {
 
     },
@@ -136,6 +139,9 @@
           }
         }
       }
+    },
+    "Refresh token" : {
+
     },
     "register" : {
       "localizations" : {
