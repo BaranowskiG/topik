@@ -14,7 +14,7 @@
         }
       }
     },
-    "account.user data" : {
+    "add_new_note" : {
 
     },
     "auth_view_title" : {
@@ -54,6 +54,9 @@
         }
       }
     },
+    "detail view: %@" : {
+
+    },
     "developer data" : {
       "localizations" : {
         "pl" : {
@@ -64,7 +67,11 @@
         }
       }
     },
+    "diary_view_title" : {
+
+    },
     "DiaryView" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pl" : {
           "stringUnit" : {
@@ -193,6 +200,9 @@
         }
       }
     },
+    "picker_new_thumbnail" : {
+
+    },
     "Refresh token" : {
 
     },
@@ -279,8 +289,10 @@
     "test" : {
 
     },
+    "title" : {
+
+    },
     "User data" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pl" : {
           "stringUnit" : {
@@ -289,6 +301,9 @@
           }
         }
       }
+    },
+    "value" : {
+
     },
     "welcome_point_1" : {
 

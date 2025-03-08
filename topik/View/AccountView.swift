@@ -18,7 +18,7 @@ public struct AccountView: View {
     public var body: some View {
         NavigationStack {
             List {
-                Section("account.user data") {
+                Section("User data") {
                     DetailedRow(title: "Email", detail: account.user?.email)
                     DetailedRow(title: "Numer telefonu", detail: account.user?.phoneNumber)
                     DetailedRow(title: "Ostatnie logowanie", detail: account.user?.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))

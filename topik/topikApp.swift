@@ -71,6 +71,7 @@ struct MainTabView: View {
             AuthenticatorView(requiresAuthorization: $requiresAuthorization, model: .init())
                 .interactiveDismissDisabled()
         }
+        .modelContainer(for: Note.self)
     }
 }
 
