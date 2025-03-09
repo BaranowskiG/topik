@@ -15,6 +15,16 @@
       }
     },
     "add_new_note" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dodaj notatkę"
+          }
+        }
+      }
+    },
+    "All" : {
 
     },
     "auth_view_title" : {
@@ -68,7 +78,14 @@
       }
     },
     "diary_view_title" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dziennik"
+          }
+        }
+      }
     },
     "DiaryView" : {
       "extractionState" : "stale",
@@ -112,6 +129,19 @@
           }
         }
       }
+    },
+    "favorite" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulubione"
+          }
+        }
+      }
+    },
+    "Favorites" : {
+
     },
     "log out" : {
       "localizations" : {
@@ -201,7 +231,14 @@
       }
     },
     "picker_new_thumbnail" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "wybierz ikonę"
+          }
+        }
+      }
     },
     "Refresh token" : {
 
@@ -237,6 +274,9 @@
           }
         }
       }
+    },
+    "remove favorite" : {
+
     },
     "tab_account" : {
       "localizations" : {
@@ -290,7 +330,14 @@
 
     },
     "title" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tytuł"
+          }
+        }
+      }
     },
     "User data" : {
       "localizations" : {
@@ -301,9 +348,6 @@
           }
         }
       }
-    },
-    "value" : {
-
     },
     "welcome_point_1" : {
 

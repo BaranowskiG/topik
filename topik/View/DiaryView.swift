@@ -10,28 +10,25 @@ import SwiftData
 
 struct DiaryView: View {
     @Environment(\.modelContext) private var context
-    @Query var notes: [Note]
+    @Query(sort: \Note.title) var notes: [Note]
 
     @State private var isNewDiaryViewVisible = false
     @State private var title = ""
-    @State private var value = ""
-    @State private var thumbnail = "photo"
+    @State private var thumbnail = "figure.climbing"
 
-    let availableThumbnails: [String] = ["photo", "music.note", "book.closed", "folder", "film"]
+    let availableThumbnails: [String] = ["figure.climbing", "building.2", "mountain.2", "book.closed", "folder", "mappin.and.ellipse"]
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(notes) { note in
-                    NavigationLink(value: note) {
-                        Label(note.title, systemImage: note.thumbnail)
+                if !notes.filter(\.isFavorite).isEmpty {
+                    Section("Favorites") {
+                        favouriteList
                     }
                 }
-                .onDelete { offsets in
-                    for offset in offsets {
-                        let note = notes[offset]
-                        context.delete(note)
-                    }
+
+                Section("All") {
+                    list
                 }
             }
             .navigationDestination(for: Note.self) { note in
@@ -48,20 +45,21 @@ struct DiaryView: View {
                 }
             }
             .sheet(isPresented: $isNewDiaryViewVisible) {
-                Form {
+                List {
                     TextField("title", text: $title)
-                    TextField("value", text: $value)
                     Picker("picker_new_thumbnail", selection: $thumbnail) {
                         ForEach(availableThumbnails, id: \.self) { image in
                             Image(systemName: image)
                         }
                     }
                     .pickerStyle(.segmented)
+                    .listRowSeparator(.hidden)
                     Button {
+                        isNewDiaryViewVisible = false
                         context.insert(Note(
                             id: "\(Int.random(in: 0..<1000))",
                             title: title,
-                            value: value,
+                            value: "",
                             thumbnail: thumbnail,
                             images: []
                         ))
@@ -74,6 +72,52 @@ struct DiaryView: View {
             }
         }
     }
+
+    var list: some View {
+        ForEach(notes.filter { $0.isFavorite == false }) { note in
+            NavigationLink(value: note) {
+                Label(note.title, systemImage: note.thumbnail)
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            note.isFavorite = true
+                        } label: {
+                            Text("favorite")
+                        }
+
+                    }
+            }
+        }
+        .onDelete { offsets in
+            for offset in offsets {
+                let note = notes[offset]
+                context.delete(note)
+            }
+        }
+    }
+
+    var favouriteList: some View {
+        ForEach(notes.filter(\.isFavorite)) { note in
+            NavigationLink(value: note) {
+                Label(note.title, systemImage: note.thumbnail)
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            note.isFavorite = false
+                        } label: {
+                            Text("remove favorite")
+                        }
+
+                    }
+            }
+        }
+        .onDelete { offsets in
+            for offset in offsets {
+                let note = notes[offset]
+                context.delete(note)
+            }
+        }
+    }
+
+
 }
 
 // MARK: - Model

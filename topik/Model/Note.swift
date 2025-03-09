@@ -15,6 +15,7 @@ final class Note {
     var value: String
     var thumbnail: String
     var images: [Data]
+    var isFavorite: Bool = false
 
     init(
         id: String,
