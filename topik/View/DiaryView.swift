@@ -32,7 +32,7 @@ struct DiaryView: View {
                 }
             }
             .navigationDestination(for: Note.self) { note in
-                Text("detail view: \(note.title)")
+                NoteView(note: note)
             }
             .navigationTitle("diary_view_title")
             .toolbar {
@@ -57,7 +57,7 @@ struct DiaryView: View {
                     Button {
                         isNewDiaryViewVisible = false
                         context.insert(Note(
-                            id: "\(Int.random(in: 0..<1000))",
+                            id: UUID().uuidString,
                             title: title,
                             value: "",
                             thumbnail: thumbnail,
@@ -116,8 +116,38 @@ struct DiaryView: View {
             }
         }
     }
+}
 
+struct NoteView: View {
+    var note: Note
 
+    @State private var text: String = ""
+
+    var body: some View {
+        VStack {
+            Text("Note")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            TextField("test", text: $text, axis: .vertical)
+                .lineLimit(10)
+                .padding()
+                .background(.background)
+                .clipShape(.rect(cornerRadius: 15))
+                .onChange(of: text) { _, newValue in
+                    note.value = newValue
+                }
+                .onAppear {
+                    text = note.value
+                }
+            ScrollView {
+
+            }
+        }
+        .padding()
+        .background(Color(uiColor: UIColor.secondarySystemBackground))
+        .navigationTitle(note.title)
+        .navigationBarTitleDisplayMode(.inline)
+    }
 }
 
 // MARK: - Model

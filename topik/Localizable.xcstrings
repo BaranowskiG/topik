@@ -25,7 +25,14 @@
       }
     },
     "All" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wszystkie"
+          }
+        }
+      }
     },
     "auth_view_title" : {
       "localizations" : {
@@ -63,9 +70,6 @@
           }
         }
       }
-    },
-    "detail view: %@" : {
-
     },
     "developer data" : {
       "localizations" : {
@@ -141,7 +145,14 @@
       }
     },
     "Favorites" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulubione"
+          }
+        }
+      }
     },
     "log out" : {
       "localizations" : {
@@ -194,6 +205,9 @@
           }
         }
       }
+    },
+    "Note" : {
+
     },
     "OK" : {
 
