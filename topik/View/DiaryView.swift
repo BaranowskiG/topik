@@ -90,7 +90,7 @@ struct DiaryView: View {
         }
         .onDelete { offsets in
             for offset in offsets {
-                let note = notes[offset]
+                let note = notes.filter { $0.isFavorite == false }[offset]
                 context.delete(note)
             }
         }
@@ -112,7 +112,7 @@ struct DiaryView: View {
         }
         .onDelete { offsets in
             for offset in offsets {
-                let note = notes[offset]
+                let note = notes.filter(\.isFavorite)[offset]
                 context.delete(note)
             }
         }
