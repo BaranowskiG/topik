@@ -14,7 +14,7 @@ final class Note {
     var title: String
     var value: String
     var thumbnail: String
-    var images: [Data]
+    @Attribute(.externalStorage) var images: [Data]
     var isFavorite: Bool = false
 
     init(

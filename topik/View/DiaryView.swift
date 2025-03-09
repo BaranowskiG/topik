@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import PhotosUI
 
 struct DiaryView: View {
     @Environment(\.modelContext) private var context
@@ -122,6 +123,11 @@ struct NoteView: View {
     var note: Note
 
     @State private var text: String = ""
+    let columns = [GridItem(.fixed(100)), GridItem(.fixed(100))]
+
+    @State private var photoItem: PhotosPickerItem?
+    @State private var photoImage: Image?
+
 
     var body: some View {
         VStack {
@@ -139,8 +145,39 @@ struct NoteView: View {
                 .onAppear {
                     text = note.value
                 }
+            HStack {
+                Text("Photos")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+                PhotosPicker(selection: $photoItem,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    Image(systemName: "plus")
+                }
+            }
+            .padding(.top)
+            .onChange(of: photoItem) {
+                Task {
+                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+//                        photoImage = loaded
+                        if !note.images.contains(loaded) {
+                            note.images.append(loaded)
+                        }
+                    } else {
+                        print("Failed")
+                    }
+                }
+            }
             ScrollView {
-
+                LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(note.images, id: \.self) { image in
+                        image.asImage()
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                    }
+                }
+                .padding(.horizontal)
             }
         }
         .padding()
