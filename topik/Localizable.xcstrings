@@ -14,6 +14,16 @@
         }
       }
     },
+    "add to favorite" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dodaj do ulubionych"
+          }
+        }
+      }
+    },
     "add_new_note" : {
       "localizations" : {
         "pl" : {
@@ -135,6 +145,7 @@
       }
     },
     "favorite" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pl" : {
           "stringUnit" : {
@@ -207,7 +218,14 @@
       }
     },
     "Note" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notatki"
+          }
+        }
+      }
     },
     "OK" : {
 
@@ -245,7 +263,14 @@
       }
     },
     "Photos" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdjęcia"
+          }
+        }
+      }
     },
     "picker_new_thumbnail" : {
       "localizations" : {
@@ -293,7 +318,14 @@
       }
     },
     "remove favorite" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń z ulubionych"
+          }
+        }
+      }
     },
     "tab_account" : {
       "localizations" : {

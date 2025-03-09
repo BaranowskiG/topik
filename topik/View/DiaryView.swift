@@ -69,7 +69,7 @@ struct DiaryView: View {
                     }
 
                 }
-                .presentationDetents([.fraction(0.3)])
+                .presentationDetents([.height(180)])
             }
         }
     }
@@ -82,9 +82,9 @@ struct DiaryView: View {
                         Button {
                             note.isFavorite = true
                         } label: {
-                            Text("favorite")
+                            Text("add to favorite")
                         }
-
+                        .tint(.accent)
                     }
             }
         }
@@ -106,7 +106,7 @@ struct DiaryView: View {
                         } label: {
                             Text("remove favorite")
                         }
-
+                        .tint(.accent)
                     }
             }
         }
@@ -123,7 +123,11 @@ struct NoteView: View {
     var note: Note
 
     @State private var text: String = ""
-    let columns = [GridItem(.fixed(100)), GridItem(.fixed(100))]
+    let columns = [
+        GridItem(.flexible(minimum: 40, maximum: .infinity)),
+        GridItem(.flexible(minimum: 40, maximum: .infinity)),
+        GridItem(.flexible(minimum: 40, maximum: .infinity))
+    ]
 
     @State private var photoItem: PhotosPickerItem?
     @State private var photoImage: Image?
@@ -170,14 +174,13 @@ struct NoteView: View {
                 }
             }
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 20) {
+                LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(note.images, id: \.self) { image in
                         image.asImage()
                             .resizable()
-                            .frame(width: 100, height: 100)
+                            .aspectRatio(1, contentMode: .fill)
                     }
                 }
-                .padding(.horizontal)
             }
         }
         .padding()
