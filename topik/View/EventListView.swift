@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct EventListView: View {
-
     @ObservedObject var model: EventList
 
     var body: some View {
         NavigationStack {
             List(model.events) { event in
                 NavigationLink(value: event) {
-                    item(event)
+                    EventCell(event: event)
                 }
             }
             .navigationDestination(for: Event.self) { event in
@@ -30,17 +29,31 @@ struct EventListView: View {
             }
         }
     }
+}
 
-    func item(_ event: Event) -> some View {
-        HStack(alignment: .top) {
-            Image(systemName: "star")
-            VStack(alignment: .leading, spacing: 10) {
-                Text(event.title)
-                    .font(.headline)
-                Text("\(event.price)")
-                    .font(.subheadline)
+struct EventCell: View {
+    var event: Event
+
+    var body: some View {
+        VStack(spacing: 4) {
+            Text(event.title)
+                .font(.system(.headline, design: .rounded, weight: .bold))
+                .frame(maxWidth: .infinity, minHeight: 40, alignment: .leading)
+                .padding(.bottom, 5)
+            HStack {
+                VStack(alignment: .leading, spacing: 9) {
+                    Label(event.place, systemImage: "location.fill")
+                    Label("\(event.date.formatted(date: .numeric, time: .omitted))", systemImage: "calendar")
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                VStack(alignment: .leading, spacing: 9) {
+                    Label(String(format: "%.2f", event.price) + " zł", systemImage: "creditcard.fill")
+                    Label(event.level, systemImage: "figure.climbing")
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .bold()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .font(.system(.caption, design: .rounded, weight: .light))
         }
     }
 }

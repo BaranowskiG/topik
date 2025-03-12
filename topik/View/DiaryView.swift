@@ -164,7 +164,6 @@ struct NoteView: View {
             .onChange(of: photoItem) {
                 Task {
                     if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-//                        photoImage = loaded
                         if !note.images.contains(loaded) {
                             note.images.append(loaded)
                         }

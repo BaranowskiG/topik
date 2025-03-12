@@ -14,4 +14,5 @@ struct Event: Decodable, Identifiable, Hashable {
     var price: Double
     var place: String
     var level: String
+    var date: Date
 }
