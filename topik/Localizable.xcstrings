@@ -81,6 +81,9 @@
         }
       }
     },
+    "Description" : {
+
+    },
     "developer data" : {
       "localizations" : {
         "pl" : {
@@ -164,6 +167,9 @@
           }
         }
       }
+    },
+    "Join" : {
+
     },
     "log out" : {
       "localizations" : {

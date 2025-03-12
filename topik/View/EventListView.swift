@@ -20,7 +20,7 @@ struct EventListView: View {
                 }
             }
             .navigationDestination(for: Event.self) { event in
-                Text(event.title)
+                EventDetailView(event: event)
             }
             .navigationTitle("event_list_title")
             .navigationBarTitleDisplayMode(.large)
@@ -72,8 +72,61 @@ struct EventCell: View {
     }
 }
 
-#Preview {
-    EventListView(model: .init())
+struct EventDetailView: View {
+    var event: Event
+
+    var body: some View {
+        ZStack {
+            ScrollView {
+                VStack {
+                    Text(event.title)
+                        .font(.system(.title2, design: .rounded, weight: .bold))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Divider()
+                    HStack {
+                        VStack(alignment: .leading, spacing: 15) {
+                            Label(event.place, systemImage: "location.fill")
+                            Label("\(event.date.formatted(date: .numeric, time: .omitted))", systemImage: "calendar")
+                        }
+                        .font(.system(.body, design: .rounded, weight: .regular))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        VStack(alignment: .leading, spacing: 15) {
+                            Label(String(format: "%.2f", event.price) + " zł", systemImage: "creditcard.fill")
+                            Label(event.level, systemImage: "figure.climbing")
+                        }
+                        .font(.system(.body, design: .rounded, weight: .regular))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.system(.subheadline, design: .rounded, weight: .light))
+                    Divider()
+                    Text("Description")
+                        .padding(.vertical, 5)
+                        .font(.system(.headline, design: .rounded, weight: .bold))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(event.description)
+                        .font(.system(.body, design: .rounded, weight: .regular))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(nil)
+                }
+                .padding()
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            VStack {
+                Spacer()
+                Button {
+
+                } label: {
+                    Label("Join", systemImage: "door.left.hand.open")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 4)
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+            }
+        }
+    }
 }
 
 // MARK: - model
