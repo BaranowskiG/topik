@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EventListView: View {
     @ObservedObject var model: EventList
+    @State private var isNewEventViewVisible: Bool = false
+    @AppStorage("canOrganizeEvents") var canOrganizeEvents: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -25,6 +27,18 @@ struct EventListView: View {
             .onAppear {
                 Task {
                     await model.fetch()
+                }
+                UserDefaults.standard.synchronize()
+            }
+            .toolbar {
+                if canOrganizeEvents {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            isNewEventViewVisible = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                    }
                 }
             }
         }
@@ -90,5 +104,4 @@ class EventList: ObservableObject {
     init() {
         self.firestore = Firestore.firestore()
     }
-
 }

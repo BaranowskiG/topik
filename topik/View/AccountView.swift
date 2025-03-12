@@ -14,13 +14,14 @@ public struct AccountView: View {
 
     @State private var copyText = "Kopiuj"
     @Binding var requiresAuthentication: Bool
+    @AppStorage("canOrganizeEvents") var canOrganizeEvents: Bool = false
 
     public var body: some View {
         NavigationStack {
             List {
                 Section("User data") {
                     DetailedRow(title: "Email", detail: account.user?.email)
-                    DetailedRow(title: "Numer telefonu", detail: account.user?.phoneNumber)
+                    Toggle("status organizator", isOn: $canOrganizeEvents)
                     DetailedRow(title: "Ostatnie logowanie", detail: account.user?.metadata.lastSignInDate?.formatted(date: .numeric, time: .shortened))
                     DetailedRow(title: "Konto utworzona", detail: account.user?.metadata.creationDate?.formatted(date: .numeric, time: .shortened))
                 }

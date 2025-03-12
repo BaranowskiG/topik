@@ -4,9 +4,6 @@
     "%@" : {
 
     },
-    "%lf" : {
-
-    },
     "account_view_title" : {
       "localizations" : {
         "pl" : {
@@ -329,6 +326,9 @@
           }
         }
       }
+    },
+    "status organizator" : {
+
     },
     "tab_account" : {
       "localizations" : {
