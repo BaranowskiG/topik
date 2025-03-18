@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EventListView: View {
-    @ObservedObject var model: EventList
+    var model: EventList
     @State private var isNewEventViewVisible: Bool = false
     @AppStorage("canOrganizeEvents") var canOrganizeEvents: Bool = false
 
@@ -19,11 +19,17 @@ struct EventListView: View {
                     EventCell(event: event)
                 }
             }
+            .listStyle(.insetGrouped)
             .navigationDestination(for: Event.self) { event in
-                EventDetailView(event: event)
+                EventDetailView(event: event, eventList: model)
             }
             .navigationTitle("event_list_title")
             .navigationBarTitleDisplayMode(.large)
+            .refreshable {
+                Task {
+                    await model.fetch()
+                }
+            }
             .onAppear {
                 Task {
                     await model.fetch()
@@ -39,6 +45,51 @@ struct EventListView: View {
                             Image(systemName: "plus")
                         }
                     }
+                }
+            }
+            .sheet(isPresented: $isNewEventViewVisible) {
+                newEventFormView(model: model)
+            }
+        }
+    }
+}
+
+struct newEventFormView: View {
+
+    var model: EventList
+    @Environment(\.dismiss) var dismiss
+
+    @State private var description: String = ""
+    @State private var title: String = ""
+    @State private var place: String = ""
+    @State private var price: String = ""
+    @State private var level: String = ""
+    @State private var date: Date = Date()
+
+    var body: some View {
+        Form {
+            Section(header: Text("Enter new event details")) {
+                TextField("Event Title", text: $title)
+                DatePicker("Event Date", selection: $date, displayedComponents: [.date])
+                TextField("Event Place", text: $place)
+                TextField("Event price", text: $price)
+                    .keyboardType(.numberPad)
+                TextField("Event Difficulty", text: $level)
+                TextField("Event description", text: $description, axis: .vertical)
+                    .lineLimit(10)
+                Button {
+                    model.add(Event(
+                        title: title,
+                        description: description,
+                        price: Double(price) ?? 0.0,
+                        place: place,
+                        level: level,
+                        date: date,
+                        ownerId: model.currentUser)
+                    )
+                    dismiss()
+                } label: {
+                    Label("Create", systemImage: "calendar.badge.plus")
                 }
             }
         }
@@ -74,6 +125,9 @@ struct EventCell: View {
 
 struct EventDetailView: View {
     var event: Event
+    let eventList: EventList
+
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ZStack {
@@ -123,8 +177,21 @@ struct EventDetailView: View {
                         .padding(.vertical, 4)
                 }
                 .buttonStyle(.borderedProminent)
-                .padding()
+                .padding(.bottom, eventList.currentUser == event.ownerId ? 0 : 15)
+                if eventList.currentUser == event.ownerId {
+                    Button {
+                        eventList.delete(event)
+                        dismiss()
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 4)
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.bottom)
+                }
             }
+            .padding(.horizontal)
         }
     }
 }
@@ -133,11 +200,15 @@ struct EventDetailView: View {
 
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseAuth
 
-class EventList: ObservableObject {
+@Observable
+class EventList {
 
-    @Published var events: [Event] = []
+    var events: [Event] = []
     let firestore: Firestore
+
+    var currentUser = Auth.auth().currentUser?.uid ?? ""
 
     @MainActor
     func fetch() async {
@@ -152,6 +223,26 @@ class EventList: ObservableObject {
         } catch let error {
             print(error.localizedDescription)
         }
+    }
+
+    @MainActor
+    func add(_ event: Event) {
+        do {
+            try firestore
+                .collection("event")
+                .addDocument(from: event)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
+    @MainActor
+    func delete(_ event: Event) {
+        guard let id = event.id else { return }
+        firestore
+            .collection("event")
+            .document(id)
+            .delete()
     }
 
     init() {

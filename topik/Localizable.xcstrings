@@ -60,16 +60,18 @@
         }
       }
     },
-    "Copy" : {
-      "extractionState" : "stale",
+    "Create" : {
       "localizations" : {
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopiuj"
+            "value" : "Utwórz"
           }
         }
       }
+    },
+    "Delete" : {
+
     },
     "delete account" : {
       "localizations" : {
@@ -82,7 +84,14 @@
       }
     },
     "Description" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opis"
+          }
+        }
+      }
     },
     "developer data" : {
       "localizations" : {
@@ -95,17 +104,6 @@
       }
     },
     "diary_view_title" : {
-      "localizations" : {
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dziennik"
-          }
-        }
-      }
-    },
-    "DiaryView" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pl" : {
           "stringUnit" : {
@@ -131,6 +129,76 @@
         }
       }
     },
+    "Enter new event details" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podaj dane nowego wydarzenia"
+          }
+        }
+      }
+    },
+    "Event Date" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "data"
+          }
+        }
+      }
+    },
+    "Event description" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "opis"
+          }
+        }
+      }
+    },
+    "Event Difficulty" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "poziom"
+          }
+        }
+      }
+    },
+    "Event Place" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "miejsce"
+          }
+        }
+      }
+    },
+    "Event price" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cena"
+          }
+        }
+      }
+    },
+    "Event Title" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tytuł"
+          }
+        }
+      }
+    },
     "event_list_title" : {
       "localizations" : {
         "en" : {
@@ -147,17 +215,6 @@
         }
       }
     },
-    "favorite" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ulubione"
-          }
-        }
-      }
-    },
     "Favorites" : {
       "localizations" : {
         "pl" : {
@@ -169,7 +226,14 @@
       }
     },
     "Join" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dołącz"
+          }
+        }
+      }
     },
     "log out" : {
       "localizations" : {

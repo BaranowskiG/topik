@@ -7,7 +7,7 @@
 
 import FirebaseFirestore
 
-struct Event: Decodable, Identifiable, Hashable {
+struct Event: Decodable, Identifiable, Hashable, Encodable {
     @DocumentID var id: String?
     var title: String
     var description: String
@@ -15,4 +15,5 @@ struct Event: Decodable, Identifiable, Hashable {
     var place: String
     var level: String
     var date: Date
+    var ownerId: String
 }
