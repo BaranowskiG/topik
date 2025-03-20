@@ -75,7 +75,7 @@ struct newEventFormView: View {
                 TextField("Event description", text: $description, axis: .vertical)
                     .lineLimit(10)
                 Button {
-                    model.add(Event(
+                    model.create(Event(
                         title: title,
                         description: description,
                         price: Double(price) ?? 0.0,
@@ -264,7 +264,7 @@ class EventList {
           }
     }
 
-    func add(_ event: Event) {
+    func create(_ event: Event) {
         do {
             try firestore
                 .collection("event")

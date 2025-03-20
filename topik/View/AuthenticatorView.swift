@@ -24,8 +24,8 @@ struct AuthenticatorView: View {
 
     @FocusState private var focusedField: Bool
 
-    @State private var email: String = "User@wp.pl"
-    @State private var password: String = "Test123456"
+    @State private var email: String = ""
+    @State private var password: String = ""
     @State private var passwordRepeat: String = ""
 
     public var body: some View {
@@ -52,7 +52,7 @@ struct AuthenticatorView: View {
                             isLoading = true
                             switch authenticationType {
                                 case .login: model.login(email: email, password: password)
-                                case .register: model.register(email: email, password: password)
+                                case .register: model.register(email: email, password: password, repeatPassword: passwordRepeat)
                             }
                         } label: {
                             switch authenticationType {
@@ -109,8 +109,10 @@ class Authenticator: ObservableObject {
 
     func register(
         email: String,
-        password: String
+        password: String,
+        repeatPassword: String
     ) {
+        guard password == repeatPassword else { return }
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
             guard error == nil else {
                 print("Firebase error: \(String(describing: error))")
