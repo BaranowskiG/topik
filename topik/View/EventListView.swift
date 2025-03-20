@@ -21,19 +21,16 @@ struct EventListView: View {
             }
             .listStyle(.insetGrouped)
             .navigationDestination(for: Event.self) { event in
-                EventDetailView(event: event, eventList: model)
+                EventDetailView(
+                    event: event,
+                    eventList: model,
+                    hasJoinedEvent: event.participants.contains(model.currentUser)
+                )
             }
             .navigationTitle("event_list_title")
             .navigationBarTitleDisplayMode(.large)
-            .refreshable {
-                Task {
-                    await model.fetch()
-                }
-            }
             .onAppear {
-                Task {
-                    await model.fetch()
-                }
+                model.setupListenerForEvents()
                 UserDefaults.standard.synchronize()
             }
             .toolbar {
@@ -85,8 +82,9 @@ struct newEventFormView: View {
                         place: place,
                         level: level,
                         date: date,
-                        ownerId: model.currentUser)
-                    )
+                        ownerId: model.currentUser,
+                        participants: []
+                    ))
                     dismiss()
                 } label: {
                     Label("Create", systemImage: "calendar.badge.plus")
@@ -125,9 +123,16 @@ struct EventCell: View {
 
 struct EventDetailView: View {
     var event: Event
-    let eventList: EventList
+    var eventList: EventList
 
     @Environment(\.dismiss) var dismiss
+    @State private var hasJoinedEvent: Bool
+
+    init(event: Event, eventList: EventList, hasJoinedEvent: Bool) {
+        self.event = event
+        self.eventList = eventList
+        self.hasJoinedEvent = hasJoinedEvent
+    }
 
     var body: some View {
         ZStack {
@@ -163,21 +168,25 @@ struct EventDetailView: View {
                         .font(.system(.body, design: .rounded, weight: .regular))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .lineLimit(nil)
+                    if true {
+                        Divider()
+                        Text("Participants")
+                            .padding(.vertical, 5)
+                            .font(.system(.headline, design: .rounded, weight: .bold))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        ForEach(event.participants, id: \.self) { item in
+                            Label(item, systemImage: "backpack")
+                                .font(.system(.body, design: .rounded, weight: .regular))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.vertical, 3)
+                        }
+                    }
                 }
                 .padding()
                 .navigationBarTitleDisplayMode(.inline)
             }
             VStack {
                 Spacer()
-                Button {
-
-                } label: {
-                    Label("Join", systemImage: "door.left.hand.open")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 4)
-                }
-                .buttonStyle(.borderedProminent)
-                .padding(.bottom, eventList.currentUser == event.ownerId ? 0 : 15)
                 if eventList.currentUser == event.ownerId {
                     Button {
                         eventList.delete(event)
@@ -189,6 +198,36 @@ struct EventDetailView: View {
                     }
                     .buttonStyle(.bordered)
                     .padding(.bottom)
+                } else {
+                    if !hasJoinedEvent {
+                        Button {
+                            var event = self.event
+                            event.participants.append(eventList.currentUser)
+                            eventList.update(event)
+                            hasJoinedEvent = true
+                        } label: {
+                            Label("Join", systemImage: "door.left.hand.open")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 4)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding(.bottom, eventList.currentUser == event.ownerId ? 0 : 15)
+                    } else {
+                        Button {
+                            if let offset = event.participants.firstIndex(of: eventList.currentUser) {
+                                var event = self.event
+                                event.participants.remove(at: offset)
+                                eventList.update(event)
+                                hasJoinedEvent = false
+                            }
+                        } label: {
+                            Label("Quit", systemImage: "door.right.hand.open")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 4)
+                        }
+                        .buttonStyle(.borderless)
+                        .padding(.bottom, eventList.currentUser == event.ownerId ? 0 : 15)
+                    }
                 }
             }
             .padding(.horizontal)
@@ -202,30 +241,29 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 
+@MainActor
 @Observable
 class EventList {
 
     var events: [Event] = []
     let firestore: Firestore
 
-    var currentUser = Auth.auth().currentUser?.uid ?? ""
+    var currentUser = Auth.auth().currentUser?.email ?? ""
 
-    @MainActor
-    func fetch() async {
-        guard events.isEmpty else { return }
-        do {
-            events = try await firestore
-                .collection("event")
-                .getDocuments()
-                .documents
-                .compactMap { try $0.data(as: Event.self) }
-            print("Events: \(events)")
-        } catch let error {
-            print(error.localizedDescription)
-        }
+    func setupListenerForEvents() {
+        firestore.collection("event")
+          .addSnapshotListener { [weak self] document, error in
+              guard let data = document?.documents else {
+              print("Document data was empty.")
+              return
+            }
+              do {
+                  self?.events = try data.compactMap { try $0.data(as: Event.self) }
+              } catch { }
+            print("Current data: \(data)")
+          }
     }
 
-    @MainActor
     func add(_ event: Event) {
         do {
             try firestore
@@ -236,13 +274,24 @@ class EventList {
         }
     }
 
-    @MainActor
     func delete(_ event: Event) {
         guard let id = event.id else { return }
         firestore
             .collection("event")
             .document(id)
             .delete()
+    }
+
+    func update(_ event: Event) {
+        guard let id = event.id else { return }
+        do {
+            try firestore
+                .collection("event")
+                .document(id)
+                .setData(from: event)
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 
     init() {

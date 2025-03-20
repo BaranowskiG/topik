@@ -71,7 +71,14 @@
       }
     },
     "Delete" : {
-
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń"
+          }
+        }
+      }
     },
     "delete account" : {
       "localizations" : {
@@ -300,6 +307,16 @@
     "OK" : {
 
     },
+    "Participants" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uczestnicy"
+          }
+        }
+      }
+    },
     "password" : {
       "localizations" : {
         "en" : {
@@ -348,6 +365,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "wybierz ikonę"
+          }
+        }
+      }
+    },
+    "Quit" : {
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrezygnuj"
           }
         }
       }

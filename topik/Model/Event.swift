@@ -16,4 +16,5 @@ struct Event: Decodable, Identifiable, Hashable, Encodable {
     var level: String
     var date: Date
     var ownerId: String
+    var participants: [String]
 }
