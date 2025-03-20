@@ -168,7 +168,7 @@ struct EventDetailView: View {
                         .font(.system(.body, design: .rounded, weight: .regular))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .lineLimit(nil)
-                    if true {
+                    if eventList.currentUser == event.ownerId {
                         Divider()
                         Text("Participants")
                             .padding(.vertical, 5)
